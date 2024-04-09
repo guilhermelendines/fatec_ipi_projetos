@@ -1,6 +1,35 @@
 --cursor vinculado(bound)
 --exibir nomes de canal concatenado a seu numero de inscritos
 -- mais um bloquinho anônimo
+-- Active: 1712670192325@@127.0.0.1@5432@20241_fatec_ipi_pbdi_cursores@public
+SELECT * FROM tb_youtubers;
+
+DO $$
+     DECLARE
+     v_ano INT := 2010;
+     v_inscritos INT := 60000000;
+     cur_ano_inscritos CURSOR (ano INT, inscritos INT) FOR
+     SELECT youtuber FROM tb_youtubers WHERE started >= ano AND subscribers >= inscritos;
+     v_youtuber VARCHAR(200);
+     BEGIN
+     --2. Abertura do cursor
+     --essa, passando argumentos pela ordem
+    -- OPEN cur_ano_inscritos(v_ano, v_inscritos);
+     --ou essa, passando argumentos pelo nome
+     --OPEN cur_ano_inscritos(inscritos := v_inscritos, ano := v_ano);
+     OPEN cur_ano_inscritos(ano := v_ano,inscritos := v_inscritos);
+     LOOP
+     -- buscar o nome sair ano
+     FETCH cur_ano_inscritos INTO v_youtuber;
+     -- sair, se for o caso 
+     EXIT WHEN NOT FOUND;
+     -- exibir, se puder
+     RAISE NOTICE '%', v_youtuber; 
+     END LOOP;
+     --4. Fechamento
+     CLOSE cur_ano_inscritos;
+     END;
+$$
 DO $$
 	DECLARE
 	-- cursor bound(vinculado)
