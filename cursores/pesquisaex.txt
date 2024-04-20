@@ -1,0 +1,7 @@
+1.3 Faça uma pesquisa sobre o anti-pattern chamado RBAR - Row By Agonizing Row.
+Explique com suas palavras do que se trata.
+ É Basicamente um metódo de processamento de dados que trata cada linha separadamente , ou seja
+ uma por uma , tornando o processo as vezes muito mais lento, só é vantajoso em casos especificos
+ como Necessidade de lógica complexa por linha se cada linha do conjunto de dados exigir uma 
+ lógica de processamento muito específica e complexa, pode ser mais fácil implementar 
+ essa lógica usando o RBAR, em vez de tentar construir consultas SQL complexas para lidar com todos os casos.
