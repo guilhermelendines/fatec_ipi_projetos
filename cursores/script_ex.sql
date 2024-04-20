@@ -37,24 +37,24 @@ $$
 DO $$
 DECLARE
 cur_exibicao REFCURSOR;
-ranking_inv int;
-ranking int;
+tupla RECORD;
 BEGIN
 	OPEN cur_exibicao FOR EXECUTE
 	format(
-    	    ' SELECT ranking FROM tb_youtubers
+    	    ' SELECT youtuber FROM tb_youtubers
 		'
-	)USING ranking;
-		FETCH LAST FROM cur_exibicao INTO ranking_inv;
-		RAISE NOTICE '%', ranking_inv;
+	)USING tupla;
+		FETCH LAST FROM cur_exibicao INTO tupla;
+		RAISE NOTICE '%', tupla;
 		WHILE FOUND LOOP
-			FETCH PRIOR FROM cur_exibicao INTO ranking_inv;
-			RAISE NOTICE '%', ranking_inv;
+			FETCH PRIOR FROM cur_exibicao INTO tupla;
+			RAISE NOTICE '%', tupla;
 			EXIT WHEN NOT FOUND;
 	END LOOP;
 	CLOSE cur_exibicao;
 END;
 $$
+select * from tb_youtubers;
 -- order by
 DO $$
 DECLARE
