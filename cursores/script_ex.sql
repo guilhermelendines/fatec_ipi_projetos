@@ -34,7 +34,28 @@ $$
 -- - O SELECT deverá ordenar em ordem não reversa
 -- - O Cursor deverá ser movido para a última tupla
 -- - Os dados deverão ser exibidos de baixo para cima
-
+DO $$
+DECLARE
+cur_exibicao REFCURSOR;
+ranking_inv int;
+ranking int;
+BEGIN
+	OPEN cur_exibicao FOR EXECUTE
+	format(
+    	    ' SELECT ranking FROM tb_youtubers
+		'
+	)USING ranking;
+		FETCH LAST FROM cur_exibicao INTO ranking_inv;
+		RAISE NOTICE '%', ranking_inv;
+		WHILE FOUND LOOP
+			FETCH PRIOR FROM cur_exibicao INTO ranking_inv;
+			RAISE NOTICE '%', ranking_inv;
+			EXIT WHEN NOT FOUND;
+	END LOOP;
+	CLOSE cur_exibicao;
+END;
+$$
+-- order by
 DO $$
 DECLARE
 cur_exibir REFCURSOR;
@@ -52,7 +73,7 @@ ORDER BY ranking DESC;'
 	RAISE NOTICE '%', tupla;
 	END LOOP;
 	CLOSE cur_exibir;
-END
+END;
 $$
 
 -- 1.3 Faça uma pesquisa sobre o anti-pattern chamado RBAR - Row By Agonizing Row.
